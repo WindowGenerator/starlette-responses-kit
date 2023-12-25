@@ -1,0 +1,86 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "starlette-responses-kit"
+dynamic = ["version"]
+description = 'Extension containing custom responses for starlette.'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = [
+  "python",
+  "starlette",
+  "starlette-extension",
+  "fastapi-extension",
+]
+authors = [
+  { name = "WindowGenerator", email = "chudov42@gmail.com" },
+]
+classifiers = [
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "starlette>=0.27.0",
+    "typing-extensions>=4.8.0",
+    # TODO: remove this pin after upgrading Starlette 0.31.1
+    "anyio>=3.7.1,<5.0.0",
+]
+
+[project.urls]
+Documentation = "https://github.com/WindowGenerator/starlette-responses-kit#readme"
+Issues = "https://github.com/WindowGenerator/starlette-responses-kit/issues"
+Source = "https://github.com/WindowGenerator/starlette-responses-kit"
+
+[tool.hatch.version]
+path = "starlette_responses_kit/__init__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest",
+  "httpx>=0.22.0",
+  "trio==0.20.0",
+]
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = [
+  "- coverage combine",
+  "coverage report",
+]
+cov = [
+  "test-cov",
+  "cov-report",
+]
+
+[[tool.hatch.envs.all.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+[tool.hatch.envs.types]
+dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:starlette_responses_kit}"
+
+[tool.coverage.run]
+source_pkgs = ["starlette_responses_kit"]
+branch = true
+parallel = true
+omit = [
+  "starlette_responses_kit/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
