@@ -84,3 +84,6 @@ exclude_lines = [
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:",
 ]
+
+[publish.index.repos.main]
+url = "https://upload.pypi.org/legacy/"
