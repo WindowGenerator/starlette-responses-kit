@@ -1,0 +1,18 @@
+exclude = [".git", ".mypy_cache", ".ruff_cache", ".venv", "dist", "tests"]
+target-version = 'py38'
+line-length = 120
+
+[format]
+preview = true
+quote-style = "single"
+
+[lint]
+preview = true
+ignore = [
+  "UP007",
+  "EM102",
+  "TCH002"
+]
+
+[lint.isort]
+known-first-party = ['starlette_responses_kit', 'tests']
