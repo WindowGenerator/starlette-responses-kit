@@ -33,6 +33,16 @@ dependencies = [
     "anyio>=3.7.1,<5.0.0",
 ]
 
+[project.optional-dependencies]
+tests = [
+  "coverage[toml]>=6.5",
+  "pytest-cov",
+  "pytest",
+  "httpx>=0.22.0",
+  "trio==0.24.0",
+  "mypy>=1.0.0",
+]
+
 [project.urls]
 Documentation = "https://github.com/WindowGenerator/starlette-responses-kit#readme"
 Issues = "https://github.com/WindowGenerator/starlette-responses-kit/issues"
@@ -41,49 +51,16 @@ Source = "https://github.com/WindowGenerator/starlette-responses-kit"
 [tool.hatch.version]
 path = "starlette_responses_kit/__init__.py"
 
-[tool.hatch.envs.default]
-dependencies = [
-  "coverage[toml]>=6.5",
-  "pytest",
-  "httpx>=0.22.0",
-  "trio==0.20.0",
-]
 [tool.hatch.envs.default.scripts]
 test = "pytest {args:tests}"
-test-cov = "coverage run -m pytest {args:tests}"
-cov-report = [
-  "- coverage combine",
-  "coverage report",
-]
-cov = [
-  "test-cov",
-  "cov-report",
-]
+check = "mypy --install-types --non-interactive {args:starlette_responses_kit}"
 
 [[tool.hatch.envs.all.matrix]]
 python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
-[tool.hatch.envs.types]
-dependencies = [
-  "mypy>=1.0.0",
-]
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:starlette_responses_kit}"
-
-[tool.coverage.run]
-source_pkgs = ["starlette_responses_kit"]
-branch = true
-parallel = true
-omit = [
-  "starlette_responses_kit/__init__.py",
-]
-
-[tool.coverage.report]
-exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
-]
-
 [publish.index.repos.main]
 url = "https://upload.pypi.org/legacy/"
+
+
+[publish.index.repos.test]
+url = "https://test.pypi.org/legacy/"
